@@ -1,6 +1,13 @@
 const Menu = [
   {header: 'Apps'},
   {
+    title: 'Quản lý đơn hàng',
+    group: 'apps',
+    icon: 'assignment',
+    name: 'order',
+    href: '/ManageOrder'
+  },
+  {
     title: 'Dashboard',
     group: 'apps',
     icon: 'dashboard',
