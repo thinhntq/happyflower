@@ -134,13 +134,13 @@
         <v-divider></v-divider>
         <v-card-text class="pa-0">
           <template>
-            <v-data-table :headers="headers" :items="order" hide-actions class="elevation-0">
+            <v-data-table :headers="headers" :items="order.order.data" hide-actions class="elevation-0">
               <template slot="items" slot-scope="props">
                 <td>{{ props.item.id }}</td>
                 <td>{{ props.item.address }}</td>
                 <td class="text-xs-left">{{ props.item.note }}</td>
-                <td class="text-xs-left">{{ props.item.attribute }}</td>
-                <td class="text-xs-left">{{ props.item.createdAt }}</td>
+                <td class="text-xs-left">{{ props.item.bankem }}</td>
+                <td class="text-xs-left">{{ props.item.order_ship }}</td>
                 <td class="text-xs-left">
                   <v-flex xl12>
                     <v-flex xl3>
@@ -226,12 +226,14 @@
   </v-container>
 </template>
 <script>
-import { order } from '@/api/orderFlower';
 import Countries from '@/api/country';
 import VWidget from '@/components/VWidget';
+import { mapState } from "vuex";
+
 export default {
   layout: 'dashboard',
   data () {
+    
     return {
       basic: {
           dialog: false
@@ -264,11 +266,20 @@ export default {
     };
   },
   computed: {
-    order () {
-      return order;
-    }
+    ...mapState(['order'])
+  },
+  created () {
+      this.$store
+          .dispatch('order/listOrder').then((order) => {
+            console.log(order)
+          })
+          .catch((err) => {
+            console.log("This is error: " + err)
+          })
   },
   methods: {
+      
+      // call ajax load select
       querySelections(v) {
         console.log(v);
         this.loading = true;
