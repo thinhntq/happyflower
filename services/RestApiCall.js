@@ -13,6 +13,9 @@ export default {
   GET(url) {
     return apiClient.get(url)
   },
+  GETSEARCH(url) {
+    return apiClient.get(url)
+  },
 //   POST(id) {
 //     return apiClient.get('/events/' + id)
 //   },

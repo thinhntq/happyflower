@@ -15,5 +15,10 @@ export const actions = {
         return RestApiCall.GET('/orders').then((order) => {
             commit("LIST_EVENT", order)
         })
+    },
+    resulftSearchOrder( { commit }, term ) {
+        return RestApiCall.GETSEARCH('/orders?order_name_contains=' + term ). then((order) => {
+            commit('LIST_EVENT', order)
+        })
     }
 }

@@ -106,7 +106,14 @@
           </v-dialog>
         </v-flex>
         <v-flex xs12 sm12 md2 class="ptx-15">
-          <v-text-field name="input-7" label="Tìm kiếm" append-icon="search"></v-text-field>
+          <v-text-field name="input-7" @input.native="searchOrder" label="Tìm kiếm" append-icon="search"></v-text-field>
+          <!-- <v-select
+                  v-model="orderTerm"
+                  label="Tìm kiếm"
+                  :items="orderItems"
+                  @input.native="searchOrder"
+                ></v-select> -->
+          <!-- <button v-on:click="searchOrder();"> tìm cái chơi</button> -->
         </v-flex>
         <v-flex xs12 sm12 md2 class="ptx-15">
           <v-widget title="Basic Usage">
@@ -229,12 +236,13 @@
 import Countries from '@/api/country';
 import VWidget from '@/components/VWidget';
 import { mapState } from "vuex";
+import debounce from 'debounce'
 
 export default {
   layout: 'dashboard',
   data () {
-    
     return {
+      orderItems: ['Tìm kiếm ít nhất 3 ký tự'],
       basic: {
           dialog: false
         },
@@ -278,7 +286,27 @@ export default {
           })
   },
   methods: {
+    searchOrder(event) {
+      let term = event.target.value
+      if (term.length > 2) {
+        this.$store
+            .dispatch('order/resulftSearchOrder', term).then((order) => {
+              console.log(order)
+            })
+            .catch((err) => {
+              console.log("This is error: " + err)
+            })
+      } else {
+        this.$store
+          .dispatch('order/listOrder').then((order) => {
+            console.log(order)
+          })
+          .catch((err) => {
+            console.log("This is error: " + err)
+          })
+      }
       
+    },
       // call ajax load select
       querySelections(v) {
         console.log(v);
